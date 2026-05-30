@@ -1,6 +1,6 @@
 # Fruit Quality Prediction System
 
-A machine learning project that predicts banana quality (**Good** or **Bad**) using binary classification. Trained and evaluated on a dataset of **8,000 samples** across 6 ML models with full EDA, feature importance analysis, and hyperparameter tuning.
+A machine learning project that predicts fruit quality (**Good** or **Bad**) using binary classification. Trained and evaluated on a dataset of **8,000 samples** across 6 ML models with full EDA, feature importance analysis, and hyperparameter tuning.
 
 ---
 
@@ -34,7 +34,7 @@ A machine learning project that predicts banana quality (**Good** or **Bad**) us
 | SVM (RBF Kernel) | Support vector classifier |
 | K-Nearest Neighbors | Distance-based |
 
-> ✅ **Best Model: Random Forest** (after GridSearchCV hyperparameter tuning)
+> ✅ **Best Model: SVM** (after GridSearchCV hyperparameter tuning)
 
 ---
 
@@ -42,10 +42,10 @@ A machine learning project that predicts banana quality (**Good** or **Bad**) us
 
 | Model | Accuracy | ROC-AUC |
 |---|---|---|
-| Random Forest | ~0.92+ | ~0.97+ |
-| Gradient Boosting | High | High |
-| SVM | High | High |
-| Logistic Regression | Baseline | Baseline |
+| Random Forest | ~0.96 | ~0.97 |
+| Gradient Boosting | ~0.94 | ~0.98 |
+| SVM | ~0.98 | ~0.99 |
+| Logistic Regression | ~0.87 | ~0.94 |
 
 > *Exact values depend on your run — check the printed output after execution.*
 
@@ -53,8 +53,7 @@ A machine learning project that predicts banana quality (**Good** or **Bad**) us
 
 ## 🗂️ Project Structure
 
-```
-banana-quality-prediction/
+Fruit-quality-prediction-by-ML/
 │
 ├── data/
 │   └── banana_quality.csv
@@ -74,11 +73,11 @@ banana-quality-prediction/
 │   ├── plot7_roc_curve.png
 │   └── plot8_feature_importance.png
 │
-├── fruit_quality_prediction.py
+├── main.py
 ├── requirements.txt
 ├── .gitignore
 └── README.md
-```
+
 
 ---
 
@@ -86,93 +85,86 @@ banana-quality-prediction/
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/banana-quality-prediction.git
-cd banana-quality-prediction
-```
-
-### 2. Install dependencies
-```bash
+git clone [https://github.com/Agrimg11/Fruit-quality-prediction-by-ML.git](https://github.com/Agrimg11/Fruit-quality-prediction-by-ML.git)
+cd Fruit-quality-prediction-by-ML
+2. Install dependencies
+Bash
 pip install -r requirements.txt
-```
-
-### 3. Run the project
-```bash
-python fruit_quality_prediction.py
-```
-
+3. Run the project
+Bash
+python main.py
 This will:
-- Load and explore the dataset
-- Generate 8 EDA and evaluation plots (saved to `plots/`)
-- Train 6 ML models and compare them
-- Run hyperparameter tuning on Random Forest
-- Save the best model, scaler, and label encoder to `models/`
-- Print a sample prediction
 
----
+Load and explore the dataset.
 
-## 🔍 Pipeline Overview
+Generate 8 EDA and evaluation plots (saved to the plots/ folder).
 
-```
-Data Loading → EDA → Preprocessing → Model Training → Evaluation → Tuning → Save
-```
+Train 6 ML models and compare them.
 
-1. **EDA** — Class distribution, feature histograms, correlation heatmap, boxplots
-2. **Preprocessing** — Drop NaN, Label Encoding, 80/20 train-test split, StandardScaler
-3. **Training** — 6 models with 5-fold cross-validation
-4. **Evaluation** — Accuracy, ROC-AUC, Confusion Matrix, ROC Curve
-5. **Feature Importance** — Random Forest importances
-6. **Tuning** — GridSearchCV on Random Forest
-7. **Inference** — Predict quality on new samples
+Run hyperparameter tuning via GridSearchCV on the Random Forest architecture.
 
----
+Save the optimized model, scaler, and label encoder to the models/ folder.
 
-## 🧪 Sample Prediction
+Print a sample production inference prediction.
 
-```python
+🔍 Pipeline Overview
+Data Loading → EDA → Preprocessing → Model Training → Evaluation → Tuning → Save Artifacts
+EDA — Class distribution, feature histograms, correlation heatmap, boxplots.
+
+Preprocessing — Drop NaN values, Label Encoding, 80/20 train-test split, and StandardScaler application.
+
+Training — 6 models executed alongside 5-fold cross-validation routines.
+
+Evaluation — Tracks Metrics via Accuracy, ROC-AUC, Confusion Matrix, and ROC Curve charts.
+
+Feature Importance — Maps Gini importance scores leveraging the Random Forest algorithm.
+
+Tuning — Executes GridSearchCV to prevent model overfitting.
+
+Inference — Serializes production files to classify unseen entries.
+
+🧪 Sample Prediction
+Python
 import joblib
 import pandas as pd
 
+# Load structural pipelines from the models directory
 model = joblib.load('models/best_model.pkl')
 scaler = joblib.load('models/scaler.pkl')
 le = joblib.load('models/label_encoder.pkl')
 
+# Define features profile schema
 features = ['Size', 'Weight', 'Sweetness', 'Softness', 'HarvestTime', 'Ripeness', 'Acidity']
 sample = pd.DataFrame([[1.2, 0.5, 2.1, -1.0, 0.3, 1.8, 0.9]], columns=features)
 
+# Run Inference Pipeline
 sample_scaled = scaler.transform(sample)
 prediction = model.predict(sample_scaled)
-print(le.inverse_transform(prediction)[0])  # → 'Good' or 'Bad'
-```
+print(f"Predicted Quality Class: {le.inverse_transform(prediction)[0]}")  # → 'Good' or 'Bad'
+📦 Requirements
+See requirements.txt for the full list. Core dependencies include:
 
----
+pandas
 
-## 📦 Requirements
+numpy
 
-See `requirements.txt` for full list. Core dependencies:
-- `pandas`, `numpy`
-- `scikit-learn`
-- `matplotlib`, `seaborn`
-- `joblib`
+scikit-learn
 
----
+matplotlib
 
+seaborn
+
+joblib
+
+🛠️ Tech Stack
 ## 🛠️ Tech Stack
-
 ![Python](https://img.shields.io/badge/Python-3.8+-blue?logo=python)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-orange?logo=scikit-learn)
 ![Pandas](https://img.shields.io/badge/Pandas-Data-green?logo=pandas)
 ![Matplotlib](https://img.shields.io/badge/Matplotlib-Viz-blue)
 
----
+📄 License
+This project is open-source and available under the MIT License.
 
-## 📄 License
-
-This project is open-source and available under the [MIT License](LICENSE).
-
----
-
-## 👤 Author
-
-**Agrim Gupta**  
-Feel free to connect or raise issues for suggestions!
-
+👤 Author
+Agrim Gupta Feel free to connect or raise issues for enhancements!
